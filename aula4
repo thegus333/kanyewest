@@ -1,0 +1,78 @@
+import 'dart:io';
+
+void main() {
+  bool continuar = true;
+
+  while (continuar) {
+    print('Escolha a operação desejada:');
+    print('1: Soma');
+    print('2: Subtração');
+    print('3: Multiplicação');
+    print('4: Divisão');
+    print('5: Sair');
+
+    String? escolha = stdin.readLineSync();
+
+    if (escolha == '5') {
+      print('Saindo...');
+      break;
+    }
+
+    if (!['1', '2', '3', '4'].contains(escolha)) {
+      print('Opção inválida. Tente novamente.');
+      continue;
+    }
+
+    // Função para ler e converter números
+    double? lerNumero(String mensagem) {
+      print(mensagem);
+      double? numero = double.tryParse(stdin.readLineSync() ?? '');
+      if (numero == null) {
+        print('Entrada inválida. Tente novamente.');
+      }
+      return numero;
+    }
+
+    double? num1 = lerNumero('Digite o primeiro número:');
+    if (num1 == null) {
+      print('Número inválido. Tente novamente.');
+      continue;
+    }
+
+    double? num2;
+    while (true) {
+      num2 = lerNumero('Digite o segundo número:');
+      if (num2 == null) {
+        print('Número inválido. Tente novamente.');
+      } else if (escolha == '4' && num2 == 0) {
+        print('Erro: Divisão por zero não é permitida. Favor inserir outro número.');
+      } else {
+        break;
+      }
+    }
+
+    switch (escolha) {
+      case '1':
+        print('Resultado: ${num1 + num2}');
+        break;
+      case '2':
+        print('Resultado: ${num1 - num2}');
+        break;
+      case '3':
+        print('Resultado: ${num1 * num2}');
+        break;
+      case '4':
+        print('Resultado: ${num1 / num2}');
+        break;
+    }
+
+    // Pergunta se o usuário deseja continuar
+    print('Deseja realizar outro cálculo? (Sim/Não)');
+    String? resposta = stdin.readLineSync();
+
+    if (resposta?.toLowerCase() != 'sim') {
+      continuar = false;
+      print('Saindo...');
+    }
+  }
+}
